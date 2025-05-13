@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import ArchiveSidebar from '../../components/ArchiveSidebar.astro';
+import { SITE_CONFIG } from '../../config';
+
+// Get all blog posts sorted by publication date (newest first)
+const allBlogPosts = await getCollection('blog');
+const sortedPosts = allBlogPosts.sort((a, b) => 
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+---
+
+<Layout title="Blog | TechInsights" description="Read the latest articles and insights on electronic technologies and resources.">
+  <div class="flex flex-col lg:flex-row gap-12">
+    <!-- Main content -->
+    <div class="lg:w-2/3">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8">Blog</h1>
+      
+      <div class="space-y-10">
+        {sortedPosts.map(post => (
+          <BlogPostCard post={post} />
+        ))}
+      </div>
+      
+      <!-- Pagination would go here in a more complete implementation -->
+      <div class="mt-12 flex justify-center">
+        <span class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800">
+          Page 1 of 1
+        </span>
+      </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="lg:w-1/3">
+      <div class="sticky top-24 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800">
+        <ArchiveSidebar posts={sortedPosts} />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<script>
+  // Initialize Fuse.js for search when the DOM is loaded
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Fetch blog data
+      const response = await fetch('/posts.json');
+      if (!response.ok) throw new Error('Failed to fetch posts data');
+      
+      const posts = await response.json();
+      
+      // Initialize Fuse for searching
+      const fuse = new Fuse(posts, {
+        keys: ['title', 'description', 'category'],
+        threshold: 0.4,
+        ignoreLocation: true
+      });
+      
+      // Search functionality
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      
+      if (searchInput && searchResults) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          
+          if (query.length < 2) {
+            searchResults.innerHTML = '';
+            searchResults.classList.add('hidden');
+            return;
+          }
+          
+          const results = fuse.search(query).slice(0, 5);
+          
+          if (results.length > 0) {
+            searchResults.innerHTML = results.map(result => `
+              <a href="/blog/${result.item.slug}" class="block p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors duration-200">
+                <div class="font-medium text-gray-900 dark:text-white">${result.item.title}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400 truncate">${result.item.description}</div>
+              </a>
+            `).join('');
+            searchResults.classList.remove('hidden');
+          } else {
+            searchResults.innerHTML = `
+              <div class="p-2 text-gray-500 dark:text-gray-400">No results found</div>
+            `;
+            searchResults.classList.remove('hidden');
+          }
+        });
+        
+        // Hide results when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add('hidden');
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Search initialization error:', error);
+    }
+  });
+</script>

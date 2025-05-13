@@ -1,0 +1,118 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  {
+    title: 'Company',
+    links: [
+      { text: 'About Us', href: '/about' },
+      { text: 'Our Team', href: '/team' },
+      { text: 'Careers', href: '/careers' },
+      { text: 'Contact', href: '/contact' },
+    ]
+  },
+  {
+    title: 'Resources',
+    links: [
+      { text: 'Blog', href: '/blog' },
+      { text: 'Case Studies', href: '/case-studies' },
+      { text: 'Whitepapers', href: '/whitepapers' },
+      { text: 'Guides', href: '/guides' },
+    ]
+  },
+  {
+    title: 'Legal',
+    links: [
+      { text: 'Privacy Policy', href: '/privacy' },
+      { text: 'Terms of Service', href: '/terms' },
+      { text: 'Cookie Policy', href: '/cookies' },
+      { text: 'Accessibility', href: '/accessibility' },
+    ]
+  }
+];
+
+const socialLinks = [
+  { name: 'Twitter', icon: 'twitter', href: 'https://twitter.com' },
+  { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com' },
+  { name: 'GitHub', icon: 'github', href: 'https://github.com' },
+  { name: 'YouTube', icon: 'youtube', href: 'https://youtube.com' },
+];
+---
+
+<footer class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <!-- Brand and description -->
+      <div class="lg:col-span-2">
+        <a href="/" class="flex items-center space-x-2 text-primary-500 dark:text-primary-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+          </svg>
+          <span class="text-xl font-heading font-bold">TechInsights</span>
+        </a>
+        <p class="mt-4 text-gray-600 dark:text-gray-400 max-w-md">
+          Providing the latest electronic resources and insights for professionals in the technology industry. Stay informed on cutting-edge developments.
+        </p>
+        
+        <!-- Social links -->
+        <div class="mt-6 flex space-x-4">
+          {socialLinks.map(social => (
+            <a 
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-500 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors duration-200"
+              aria-label={social.name}
+            >
+              {social.icon === 'twitter' && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                </svg>
+              )}
+              {social.icon === 'linkedin' && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              )}
+              {social.icon === 'github' && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+              )}
+              {social.icon === 'youtube' && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Footer link columns -->
+      {footerLinks.map(section => (
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">{section.title}</h3>
+          <ul class="mt-4 space-y-2">
+            {section.links.map(link => (
+              <li>
+                <a href={link.href} class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    
+    <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+      <p class="text-gray-500 dark:text-gray-400 text-sm text-center">
+        &copy; {currentYear} TechInsights. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
